@@ -1,0 +1,154 @@
+<!DOCTYPE html        interested_membership: form.interested_membership.value,
+        email: form.email.value,
+>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>NUMINATI — Enter the Circle</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      background-color: #fdfaf7;
+      font-family: 'Montserrat', sans-serif;
+      color: #333;
+      padding: 2rem;
+      max-width: 600px;
+      margin: auto;
+    }
+    input, select, textarea, button {
+      width: 100%;
+      padding: 0.75rem;
+      margin-top: 0.5rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+    button {
+      background-color: #ccc;
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    label {
+      font-weight: bold;
+    }
+    .logo {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .logo img {
+      max-width: 180px;
+    }
+  </style>
+</head>
+<body>
+  <div class="logo">
+    <img src="https://imgur.com/a/9Aez6Un" alt="Numinati Logo" />
+  </div>
+
+  <h1>Enter the Circle</h1>
+  <form id="numinati-form">
+    <label for="name">May we know your name?</label>
+    <input type="text" id="name" name="name" required />
+
+    <label for="location">Where do you call home?</label>
+    <input type="text" id="location" name="location" required />
+
+    <label for="age_range">What era do you breathe?</label>
+    <select id="age_range" name="age_range" required>
+      <option>18–24</option><option>25–30</option><option>31–35</option>
+      <option>36–40</option><option>41–45</option><option>46–50</option>
+      <option>51–55</option><option>56–60</option><option>61–65</option>
+      <option>66–70</option><option>71–75</option><option>76–99</option>
+    </select>
+
+    <label for="gender">What’s your nature?</label>
+    <select id="gender" name="gender">
+      <option>Prefer not to say</option><option>Female</option><option>Male</option><option>Other</option>
+    </select>
+
+    <label for="marital_status">Are you walking alone or accompanied?</label>
+    <select id="marital_status" name="marital_status">
+      <option>Single</option><option>In a relationship</option><option>Married</option><option>Other</option>
+    </select>
+
+    <label for="kids">Any little legacies?</label>
+    <select id="kids" name="kids">
+      <option>No</option><option>Yes</option><option>Prefer not to say</option>
+    </select>
+
+    <label for="fractional_aware">Are you familiar with Fractional Ownership?</label>
+    <select id="fractional_aware" name="fractional_aware">
+      <option>Yes</option><option>No</option>
+    </select>
+
+    <label for="fractional_invested">Do you hold any investment like this?</label>
+    <select id="fractional_invested" name="fractional_invested">
+      <option>Yes</option><option>No</option>
+    </select>
+
+    <label for="interests">Which chapter draws you in?</label>
+    <select id="interests" name="interests[]" multiple required>
+      <option value="villa">Chalet, Villa and Mansion</option>
+      <option value="estate">Productive Estates</option>
+      <option value="classic">Classic Automobile</option>
+      <option value="performance">High Performance Automobile</option>
+      <option value="yachts">Exclusive Yachts</option>
+      <option value="paintings">Exclusive Paintings</option>
+    </select>
+
+    <label for="invitation_code">Abracadabra Membership Invitation Code</label>
+    <input type="text" id="invitation_code" name="invitation_code" placeholder="PREFIX123" />
+
+    <label for="wants_invite">No invitation? Would you like to join the NUMINATI Circle?</label>
+    <select id="wants_invite" name="wants_invite">
+      <option>Yes</option><option>No</option>
+    </select>
+
+    <label for="message">What should we know of you?</label>
+    <textarea id="message" name="message" rows="4"></textarea>
+
+    
+    <label for="interested_membership">I would be interested on understanding in more detail NUMINATI Circle Membership and how to have access to these exclusive tailor-made ownership gems.</label>
+    <select id="interested_membership" name="interested_membership">
+      <option>Yes</option>
+      <option>No</option>
+    </select>
+
+    <label for="email">Email</label>
+    <input type="email" id="email" name="email" required />
+<button type="submit">Request Access</button>
+  </form>
+
+  <script>
+    const form = document.getElementById('numinati-form');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData.entries());
+
+      // Fix: handle multiple select as array
+      data.interests = formData.getAll('interests[]');
+
+      const response = await fetch("https://vljrppcvxsznenvnakmg.supabase.co/rest/v1/form_submissions", {
+        method: "POST",
+        headers: {
+          apikey: "YOUR_SUPABASE_API_KEY",
+          Authorization: "Bearer YOUR_SUPABASE_API_KEY",
+          "Content-Type": "application/json",
+          Prefer: "return=minimal"
+        },
+        body: JSON.stringify(data)
+      });
+
+      if (response.ok) {
+        alert("Thank you. Your submission was received.");
+        form.reset();
+      } else {
+        alert("There was an error. Please try again.");
+      }
+    });
+  </script>
+</body>
+</html>
